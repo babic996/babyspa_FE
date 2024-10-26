@@ -131,6 +131,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
         >
           <Input.Search
             placeholder="Pretraži..."
+            status="warning"
             onSearch={handleSearchChange}
             onChange={handleInputChange}
             style={{ width: "100%" }}
@@ -148,6 +149,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
         >
           <InputNumber
             placeholder="Preostalo termina..."
+            status="warning"
             min={0}
             style={{ width: "100%" }}
             onChange={handleRemainingTermInputChange}
@@ -163,7 +165,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             flexShrink: 0,
           }}
         >
-          <DatePicker style={{ width: "100%" }} />
+          <DatePicker status="warning" style={{ width: "100%" }} />
         </div>
       )}
       {showRangePicker && (
@@ -180,6 +182,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
               format={
                 showTimeInRangePicker ? "DD.MM.YYYY. HH:mm" : "DD.MM.YYYY."
               }
+              status="warning"
               value={
                 filter.startRangeDate && filter.endRangeDate
                   ? [dayjs(filter.startRangeDate), dayjs(filter.endRangeDate)]
@@ -205,7 +208,10 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             showSearch
             allowClear
             value={filter.babyId}
-            style={{ width: "100%" }}
+            status="warning"
+            style={{
+              width: "100%",
+            }}
             filterOption={(input, option) => {
               if (option && option.children) {
                 const childrenString = Array.isArray(option.children)
@@ -247,6 +253,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             placeholder="Odaberi paket usluge"
             showSearch
             allowClear
+            status="warning"
             value={filter.servicePackageId}
             style={{ width: "100%" }}
             filterOption={(input, option) => {
@@ -290,6 +297,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             placeholder="Odaberi tip plaćanja"
             allowClear
             style={{ width: "100%" }}
+            status="warning"
             onChange={(value) => {
               setFilter((prev) => ({
                 ...prev,
@@ -318,6 +326,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             placeholder="Odaberi status"
             allowClear
             style={{ width: "100%" }}
+            status="warning"
             value={filter.statusId}
             onChange={(value) => {
               setFilter((prev) => ({
@@ -347,6 +356,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             placeholder="Odaberi način grupisanja podataka"
             style={{ width: "100%" }}
             value={filter?.groupDataType}
+            status="warning"
             onChange={(value) => {
               setFilter((prev) => ({
                 ...prev,
@@ -375,6 +385,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
         >
           <InputNumber
             placeholder="Cijena od"
+            status="warning"
             onChange={handleStartPriceChange}
             step={0.1}
             style={{ flex: 1 }}
@@ -382,6 +393,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
           <AiOutlineArrowRight style={{ margin: "0 12px" }} />
           <InputNumber
             placeholder="Cijena do"
+            status="warning"
             onChange={handleEndPriceChange}
             step={0.1}
             style={{ flex: 1 }}

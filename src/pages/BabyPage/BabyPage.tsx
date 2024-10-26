@@ -405,7 +405,7 @@ const BabyPage = () => {
             onClick={handleCreateModal}
             style={{ marginBottom: 16 }}
           >
-            Dodaj Bebu
+            Dodaj bebu
           </Button>
         </div>
         <FilterComponent

@@ -11,6 +11,7 @@ import { calendarMessages } from "../../util/const";
 import { FaInfoCircle } from "react-icons/fa";
 import { useState } from "react";
 import { Modal, Typography } from "antd";
+import "./CalendarComponent.scss";
 const { Paragraph, Title } = Typography;
 dayjs.locale("bs");
 
@@ -73,9 +74,25 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
       handleOpenInfoModal();
     };
 
+    const statusClass = event.reservation.status.statusCode;
+
     return (
       <div
-        style={{ display: "flex", alignItems: "center" }}
+        className={`custom-event ${
+          statusClass == "term_canceled"
+            ? "canceled"
+            : statusClass == "term_used"
+            ? "used"
+            : statusClass == "term_not_used"
+            ? "not-used"
+            : statusClass == "term_reserved"
+            ? "reserved"
+            : ""
+        }`}
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
         onMouseLeave={() => setShowInfoIcon(null)}
         onMouseEnter={() => setShowInfoIcon(event.id)}
       >
@@ -173,7 +190,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
           </Paragraph>
         </Typography>
       </Modal>
-      <div style={{ height: "calc(100vh - 50px)" }}>
+      <div style={{ height: "calc(100vh - 50px)", backgroundColor: "#fff" }}>
         <Calendar
           localizer={localizer}
           events={events}

@@ -1,104 +1,64 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { FaHome, FaChild, FaBoxes, FaFileAlt, FaListUl } from "react-icons/fa";
 import { useState } from "react";
+import { Layout as AntLayout, Menu } from "antd";
 import "./Layout.scss";
+const { Sider, Content } = AntLayout;
 
 const Layout = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const location = useLocation();
 
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };
+
   return (
-    <div className="layout">
-      <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-        <div className="sidebar-header">
-          <h1 className="logo">
-            {collapsed ? (
-              <img src="/logo.jpg" alt="Logo" className="logo-icon" />
-            ) : (
-              <div className="header-content">
-                <img src="/logo.jpg" alt="Logo" className="logo-icon" />
-                <h1 className="logo">Sunshine</h1>
-              </div>
-            )}
-          </h1>
-          <button className="collapse-btn" onClick={toggleSidebar}>
-            {collapsed ? "☰" : "✕"}
-          </button>
+    <AntLayout style={{ minHeight: "100vh" }}>
+      <Sider collapsible collapsed={collapsed} onCollapse={toggleSidebar}>
+        <div style={{ padding: "16px", textAlign: "center" }}>
+          <img
+            src="/logo.jpg"
+            alt="Logo"
+            style={{ width: collapsed ? "40px" : "100px" }}
+          />
+          {!collapsed && <h1 style={{ color: "white" }}>Baby spa Sunshine</h1>}
         </div>
-        <ul>
-          <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive ? "menu-link active" : "menu-link"
-              }
-            >
-              <span className="menu-icon">
-                <FaHome />
-              </span>
-              <span className="menu-text">Pregled rezervacija</span>
+        <Menu theme="dark" mode="inline" selectedKeys={[location.pathname]}>
+          <Menu.Item key="/" icon={<FaHome />}>
+            <NavLink to="/" end>
+              Pregled rezervacija
             </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/baby"
-              className={({ isActive }) =>
-                isActive ? "menu-link active" : "menu-link"
-              }
-            >
-              <span className="menu-icon">
-                <FaChild />
-              </span>
-              <span className="menu-text">Bebe</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/service-package"
-              className={({ isActive }) =>
-                isActive ? "menu-link active" : "menu-link"
-              }
-            >
-              <span className="menu-icon">
-                <FaBoxes />
-              </span>
-              <span className="menu-text">Paketi usluga</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/arrangement"
-              className={({ isActive }) =>
-                isActive ? "menu-link active" : "menu-link"
-              }
-            >
-              <span className="menu-icon">
-                <FaListUl />
-              </span>
-              <span className="menu-text">Aranžmani</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/report"
-              className={({ isActive }) =>
-                isActive ? "menu-link active" : "menu-link"
-              }
-            >
-              <span className="menu-icon">
-                <FaFileAlt />
-              </span>
-              <span className="menu-text">Izvještaji</span>
-            </NavLink>
-          </li>
-        </ul>
-      </aside>
-      <main className="content">
-        <Outlet />
-      </main>
-    </div>
+          </Menu.Item>
+          <Menu.Item key="/baby" icon={<FaChild />}>
+            <NavLink to="/baby">Bebe</NavLink>
+          </Menu.Item>
+          <Menu.Item key="/service-package" icon={<FaBoxes />}>
+            <NavLink to="/service-package">Paketi usluga</NavLink>
+          </Menu.Item>
+          <Menu.Item key="/arrangement" icon={<FaListUl />}>
+            <NavLink to="/arrangement">Aranžmani</NavLink>
+          </Menu.Item>
+          <Menu.Item key="/report" icon={<FaFileAlt />}>
+            <NavLink to="/report">Izvještaji</NavLink>
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      <AntLayout>
+        <Content
+          style={{
+            margin: "0px",
+            padding: "0px",
+            backgroundImage: "url('/backgroundimage.jpg')", // zameni sa tačnom putanjom do slike
+            backgroundSize: "cover", // prilagodi veličinu slike
+            backgroundPosition: "center", // centriraj sliku
+            borderRadius: "0px",
+          }}
+        >
+          <Outlet />
+        </Content>
+      </AntLayout>
+    </AntLayout>
   );
 };
 

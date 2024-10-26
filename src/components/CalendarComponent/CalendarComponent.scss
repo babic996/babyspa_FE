@@ -1,0 +1,21 @@
+.custom-event {
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.custom-event.canceled {
+  background-color: #f40511;
+}
+
+.custom-event.used {
+  background-color: #4caf50;
+}
+
+.custom-event.not-used {
+  background-color: #ff660d;
+}
+
+.custom-event.reserved {
+  background-color: #30f1fb;
+}
