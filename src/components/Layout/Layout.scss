@@ -1,0 +1,142 @@
+/* Global styling */
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #001529;
+  color: white;
+  padding: 10px;
+  transition: width 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 100px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center; /* Poravnaj elemente vertikalno */
+  justify-content: space-between; /* Razmak između logo/naziva i dugmeta */
+}
+
+.header-content {
+  display: flex;
+  align-items: center; /* Poravnaj logo i naziv vertikalno */
+}
+
+.logo {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: font-size 0.3s ease;
+}
+
+.sidebar.collapsed .logo {
+  font-size: 1.2rem;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.sidebar ul li {
+  margin: 20px 0;
+}
+
+.sidebar ul li a {
+  color: #b6c2cf;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex; /* Ikone i tekst su sada u istoj liniji */
+  align-items: center;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s, padding-left 0.3s;
+}
+
+.sidebar ul li a:hover {
+  background-color: #1890ff;
+  padding-left: 20px;
+}
+
+.menu-icon {
+  margin-right: 10px;
+  font-size: 1.5rem; /* Veličina ikona */
+  transition: margin-right 0.3s ease;
+}
+
+.menu-text {
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .menu-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease, opacity 0.2s ease;
+}
+
+.sidebar.collapsed .menu-icon {
+  margin-right: 0;
+}
+
+.collapse-btn {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed .collapse-btn {
+  transform: rotate(180deg);
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.content > * {
+  flex-grow: 1;
+}
+
+/* Stil za aktivni tab */
+.menu-link.active {
+  background-color: #1890ff; /* Boja pozadine za aktivni link */
+  color: white; /* Boja teksta za aktivni link */
+  font-weight: bold; /* Podebljan tekst */
+}
+
+/* Stil za hover na aktivni tab */
+.menu-link.active:hover {
+  background-color: #1674d8; /* Tamnija nijansa pri hoveru */
+}
+
+.logo-icon {
+  width: 40px; /* Prilagodi širinu prema potrebi */
+  height: 40px; /* Visina treba biti ista kao širina za okrugli oblik */
+  border-radius: 50%; /* Okrugli oblik */
+  object-fit: cover; /* Održava proporcije slike unutar okvira */
+  margin-right: 10px; /* Razmak između slike i naziva */
+}

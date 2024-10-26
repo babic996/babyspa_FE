@@ -1,0 +1,20 @@
+.container {
+    padding: 16px;
+  }
+  
+  .custom-button {
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+  
+  .calendar-wrapper {
+    width: 100%;
+    max-width: 100%; /* Kalendarska komponenta zauzima maksimalnu širinu */
+    display: flex;
+    justify-content: center; /* Centriranje kalendara */
+  }
+  
+  .calendar-wrapper > * {
+    width: 100%; /* Kalendarska komponenta zauzima punu širinu */
+  }
+  
