@@ -181,6 +181,11 @@ const BabyPage = () => {
 
   const columns: ColumnsType<BabyInterface> = [
     {
+      title: "ID bebe",
+      dataIndex: "babyId",
+      key: "babyId",
+    },
+    {
       title: "Ime",
       dataIndex: "babyName",
       key: "babyName",

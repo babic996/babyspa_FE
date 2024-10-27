@@ -9,9 +9,45 @@ const Layout = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const location = useLocation();
 
+  //------------------METHODS----------------
+
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };
+
+  const menuItems = [
+    {
+      key: "/",
+      icon: <FaHome />,
+      label: (
+        <NavLink to="/" end>
+          Pregled rezervacija
+        </NavLink>
+      ),
+    },
+    {
+      key: "/baby",
+      icon: <FaChild />,
+      label: <NavLink to="/baby">Bebe</NavLink>,
+    },
+    {
+      key: "/service-package",
+      icon: <FaBoxes />,
+      label: <NavLink to="/service-package">Paketi usluga</NavLink>,
+    },
+    {
+      key: "/arrangement",
+      icon: <FaListUl />,
+      label: <NavLink to="/arrangement">Aranžmani</NavLink>,
+    },
+    {
+      key: "/report",
+      icon: <FaFileAlt />,
+      label: <NavLink to="/report">Izvještaji</NavLink>,
+    },
+  ];
+
+  //------------------RENDER------------------
 
   return (
     <AntLayout style={{ minHeight: "100vh" }}>
@@ -24,25 +60,12 @@ const Layout = () => {
           />
           {!collapsed && <h1 style={{ color: "white" }}>Baby spa Sunshine</h1>}
         </div>
-        <Menu theme="dark" mode="inline" selectedKeys={[location.pathname]}>
-          <Menu.Item key="/" icon={<FaHome />}>
-            <NavLink to="/" end>
-              Pregled rezervacija
-            </NavLink>
-          </Menu.Item>
-          <Menu.Item key="/baby" icon={<FaChild />}>
-            <NavLink to="/baby">Bebe</NavLink>
-          </Menu.Item>
-          <Menu.Item key="/service-package" icon={<FaBoxes />}>
-            <NavLink to="/service-package">Paketi usluga</NavLink>
-          </Menu.Item>
-          <Menu.Item key="/arrangement" icon={<FaListUl />}>
-            <NavLink to="/arrangement">Aranžmani</NavLink>
-          </Menu.Item>
-          <Menu.Item key="/report" icon={<FaFileAlt />}>
-            <NavLink to="/report">Izvještaji</NavLink>
-          </Menu.Item>
-        </Menu>
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          items={menuItems}
+        />
       </Sider>
       <AntLayout>
         <Content

@@ -240,6 +240,11 @@ const ArrangementPage = () => {
 
   const columns: ColumnsType<TableArrangementInterface> = [
     {
+      title: "ID aranžmana",
+      dataIndex: "arrangementId",
+      key: "arrangementId",
+    },
+    {
       title: "Naziv paketa usluge",
       dataIndex: "servicePackage",
       key: "servicePackage",

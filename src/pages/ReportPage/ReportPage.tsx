@@ -174,7 +174,14 @@ const ReportPage = () => {
           disabledDate={disableTodayAndFuture}
         />
       </Modal>
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          marginLeft: 10,
+        }}
+      >
         <Tabs
           defaultActiveKey="reservationReportTab"
           activeKey={activeTabKey}

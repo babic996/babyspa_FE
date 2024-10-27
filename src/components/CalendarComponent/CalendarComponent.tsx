@@ -161,6 +161,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
             }}
           >
             {reservationInfo?.arrangement.servicePackage.value}
+            <br />
+            ID aranžmana: ({reservationInfo?.arrangement.arrangementId})
           </Paragraph>
 
           <Title level={5} style={{ color: "#333", marginBottom: "10px" }}>

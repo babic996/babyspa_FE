@@ -183,6 +183,11 @@ const ServicePackagePage = () => {
 
   const columns: ColumnsType<ServicePackageInterface> = [
     {
+      title: "ID paketa usluge",
+      dataIndex: "servicePackageId",
+      key: "servicePackageId",
+    },
+    {
       title: "Naziv paketa usluge",
       dataIndex: "servicePackageName",
       key: "servicePackageName",
