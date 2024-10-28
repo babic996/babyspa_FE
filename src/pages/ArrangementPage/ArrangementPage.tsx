@@ -206,16 +206,24 @@ const ArrangementPage = () => {
     setLoading(true);
     try {
       if (isEditArrangement) {
-        const res = await editArrangement(data);
-        setArrangements((prev) =>
-          prev.map((item) =>
-            item.arrangementId === data.arrangementId
-              ? { ...item, ...res.data.data }
-              : item
-          )
-        );
-        setIsModalOpen(false);
-        toastSuccessNotification("Ažurirano!");
+        if (
+          data.statusId ===
+            status.find((x) => x.statusCode == "paid")?.statusId &&
+          !data.paymentTypeId!!
+        ) {
+          toastErrorNotification("Morate izabrati tip plaćnja!");
+        } else {
+          const res = await editArrangement(data);
+          setArrangements((prev) =>
+            prev.map((item) =>
+              item.arrangementId === data.arrangementId
+                ? { ...item, ...res.data.data }
+                : item
+            )
+          );
+          setIsModalOpen(false);
+          toastSuccessNotification("Ažurirano!");
+        }
       } else {
         await addArrangement(data);
         const result = await getArrangements(cursor - 1, null);
