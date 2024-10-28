@@ -179,13 +179,14 @@ const ReportPage = () => {
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          marginLeft: 10,
+          paddingLeft: 10,
         }}
       >
         <Tabs
           defaultActiveKey="reservationReportTab"
           activeKey={activeTabKey}
           onChange={handleTabChange}
+          size="large"
           items={[
             {
               key: "reservationReportTab",

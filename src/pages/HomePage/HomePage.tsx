@@ -9,6 +9,7 @@ import {
   Popconfirm,
 } from "antd";
 import "./HomePage.scss";
+import { PlusOutlined } from "@ant-design/icons";
 import CalendarComponent from "../../components/CalendarComponent/CalendarComponent";
 import { useEffect, useState } from "react";
 import {
@@ -353,6 +354,7 @@ const HomePage = () => {
           type="primary"
           className="custom-button"
           onClick={handleCreateModal}
+          icon={<PlusOutlined />}
         >
           Dodaj rezervaciju
         </Button>

@@ -10,7 +10,7 @@ import {
   DatePicker,
 } from "antd";
 import "./BabyPage.scss";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { BabyInterface } from "../../interfaces/BabyInterface";
 import { useEffect, useState } from "react";
@@ -409,6 +409,7 @@ const BabyPage = () => {
             type="primary"
             onClick={handleCreateModal}
             style={{ marginBottom: 16 }}
+            icon={<PlusOutlined />}
           >
             Dodaj bebu
           </Button>

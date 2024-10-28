@@ -22,7 +22,7 @@ import {
 import FilterComponent from "../../components/FilterComponent/FilterComponent";
 import { DEFAULT_PAGE_SIZE, errorResponse } from "../../util/const";
 import type { ColumnsType } from "antd/es/table";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { getServicePackageValidationSchema } from "../../validations/ServicePackageValidationSchema";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -374,6 +374,7 @@ const ServicePackagePage = () => {
             type="primary"
             onClick={handleCreateModal}
             style={{ marginBottom: 16 }}
+            icon={<PlusOutlined />}
           >
             Dodaj paket usluge
           </Button>

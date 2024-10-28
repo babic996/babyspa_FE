@@ -15,7 +15,7 @@ import {
   toastSuccessNotification,
 } from "../../util/toastNotification";
 import type { ColumnsType } from "antd/es/table";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Form,
@@ -598,6 +598,7 @@ const ArrangementPage = () => {
           <Button
             type="primary"
             onClick={handleCreateModal}
+            icon={<PlusOutlined />}
             style={{ marginBottom: 16 }}
           >
             Dodaj aranžman
