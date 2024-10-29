@@ -274,7 +274,13 @@ const BabyPage = () => {
         fullText={currentNote}
       />
       <Modal
-        title={isEditBaby ? "Uredi bebu" : "Dodaj novu bebu"}
+        title={
+          isEditBaby ? (
+            <div style={{ textAlign: "center" }}>Uredi bebu</div>
+          ) : (
+            <div style={{ textAlign: "center" }}>Dodaj novu bebu</div>
+          )
+        }
         maskClosable={false}
         open={isModalOpen}
         footer={null}

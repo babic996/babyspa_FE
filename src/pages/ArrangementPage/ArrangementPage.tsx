@@ -15,7 +15,12 @@ import {
   toastSuccessNotification,
 } from "../../util/toastNotification";
 import type { ColumnsType } from "antd/es/table";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  ContactsOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Form,
@@ -41,9 +46,14 @@ import { getDiscountList } from "../../services/DiscountService";
 import { PaymentTypeInterface } from "../../interfaces/PaymentTypeInterface";
 import { getPaymentTypeList } from "../../services/PaymentTypeService";
 import { useFilter } from "../../context/Filter/useFilter";
-import { existsByArrangement } from "../../services/ReservationServices";
+import {
+  existsByArrangement,
+  getReservationsByArrangement,
+} from "../../services/ReservationServices";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getArrangementValidationSchema } from "../../validations/ArrangementValidationSchema";
+import { ReservationShortDetailsInterface } from "../../interfaces/ReservationShortDetailsInterface";
+import ReservationInfoModal from "../../components/ReservationInfoModal/ReservationInfoModal";
 
 const ArrangementPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -58,11 +68,16 @@ const ArrangementPage = () => {
   const [discounts, setDiscounts] = useState<DiscountInterface[]>([]);
   const [status, setStatus] = useState<StatusInterface[]>([]);
   const [paymentTypes, setPaymentTypes] = useState<PaymentTypeInterface[]>([]);
+  const [reservationShortDetails, setRervationShortDetails] = useState<
+    ReservationShortDetailsInterface[]
+  >([]);
   const [totalElements, setTotalElements] = useState<number>();
   const [isEditArrangement, setIsEditArrangement] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentNote, setCurrentNote] = useState<string>("");
   const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
+  const [isReservationInfoModalVisible, setIsReservationInfoModalVisible] =
+    useState<boolean>(false);
   const [hidePaymentType, setHidePaymentType] = useState<boolean>(false);
   const [disableEditField, setDisableEditField] = useState<boolean>(false);
   const schema = getArrangementValidationSchema(isEditArrangement);
@@ -77,6 +92,8 @@ const ArrangementPage = () => {
   } = useForm<CreateOrUpdateArrangementInterface>({
     resolver: yupResolver(schema),
   });
+
+  console.log(reservationShortDetails);
 
   //------------------LIFECYCLE------------------
 
@@ -160,6 +177,21 @@ const ArrangementPage = () => {
     }
   };
 
+  const handleGetReservation = async (arrangementId?: number | null) => {
+    if (arrangementId) {
+      setLoading(true);
+      try {
+        const result = await getReservationsByArrangement(arrangementId);
+        setRervationShortDetails(result);
+        setIsReservationInfoModalVisible(true);
+      } catch (e) {
+        errorResponse(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   const handleModalCancel = () => {
     reset({
       arrangementId: null,
@@ -198,6 +230,11 @@ const ArrangementPage = () => {
   const handleCloseInfoModal = () => {
     setIsInfoModalVisible(false);
     setCurrentNote("");
+  };
+
+  const handleCloseReservationInfoModal = () => {
+    setIsReservationInfoModalVisible(false);
+    setRervationShortDetails([]);
   };
 
   const onSubmit: SubmitHandler<CreateOrUpdateArrangementInterface> = async (
@@ -351,7 +388,7 @@ const ArrangementPage = () => {
       render: (_, record) => (
         <>
           <EditOutlined
-            style={{ marginRight: 16 }}
+            style={{ marginRight: 12 }}
             onClick={() => {
               const arrangementDto: CreateOrUpdateArrangementInterface =
                 convertTableArrangementToCreateOrUpdateArrangement(record);
@@ -364,8 +401,11 @@ const ArrangementPage = () => {
             okText="Da"
             cancelText="Ne"
           >
-            <DeleteOutlined style={{ color: "red" }} />
+            <DeleteOutlined style={{ color: "red", marginRight: 12 }} />
           </Popconfirm>
+          <ContactsOutlined
+            onClick={() => handleGetReservation(record?.arrangementId)}
+          />
         </>
       ),
     },
@@ -378,8 +418,19 @@ const ArrangementPage = () => {
         onClose={handleCloseInfoModal}
         fullText={currentNote}
       />
+      <ReservationInfoModal
+        visible={isReservationInfoModalVisible}
+        onClose={handleCloseReservationInfoModal}
+        reservations={reservationShortDetails}
+      />
       <Modal
-        title={isEditArrangement ? "Uredi aranžman" : "Dodaj novi aranžman"}
+        title={
+          isEditArrangement ? (
+            <div style={{ textAlign: "center" }}>Uredi aranžman</div>
+          ) : (
+            <div style={{ textAlign: "center" }}>Dodaj novi aranžman</div>
+          )
+        }
         maskClosable={false}
         open={isModalOpen}
         footer={null}

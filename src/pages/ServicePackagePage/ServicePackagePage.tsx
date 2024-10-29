@@ -265,9 +265,11 @@ const ServicePackagePage = () => {
       />
       <Modal
         title={
-          isEditServicePackage
-            ? "Uredi paket usluge"
-            : "Dodaj novi paket usluge"
+          isEditServicePackage ? (
+            <div style={{ textAlign: "center" }}>Uredi paket usluge</div>
+          ) : (
+            <div style={{ textAlign: "center" }}>Dodaj novi paket usluge</div>
+          )
         }
         maskClosable={false}
         open={isModalOpen}

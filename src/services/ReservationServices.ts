@@ -35,6 +35,17 @@ export const existsByArrangement = async (arrangementId: number) => {
   return result?.data.data;
 };
 
+export const getReservationsByArrangement = async (arrangementId: number) => {
+  const request = baseRequest();
+
+  const result = await request({
+    url: `/reservation/find-by-arrangement-id?arrangementId=${arrangementId}`,
+    method: "get",
+  });
+
+  return result?.data.data;
+};
+
 export const addReservation = (data: CreateOrUpdateReservationInterface) => {
   const request = baseRequest();
 
