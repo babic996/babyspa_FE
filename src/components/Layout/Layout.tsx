@@ -3,7 +3,7 @@ import { FaHome, FaChild, FaBoxes, FaFileAlt, FaListUl } from "react-icons/fa";
 import { useState } from "react";
 import { Layout as AntLayout, Menu } from "antd";
 import "./Layout.scss";
-const { Sider, Content, Footer } = AntLayout;
+const { Sider, Content } = AntLayout;
 
 const Layout = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
