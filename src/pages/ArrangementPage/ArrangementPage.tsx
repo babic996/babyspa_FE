@@ -660,7 +660,6 @@ const ArrangementPage = () => {
           </Button>
         </div>
         <FilterComponent
-          showRangePicker={true}
           showSelectBebies={true}
           showPriceSlider={true}
           showSelectServicePackages={true}
