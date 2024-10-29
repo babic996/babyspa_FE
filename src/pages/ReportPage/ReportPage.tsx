@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./ReportPage.scss";
 import {
   getReservationDailyReports,
@@ -34,10 +34,6 @@ const ReportPage = () => {
   const [servicePackageDailyReport, setServicePackageDailyReport] = useState<
     ServicePackageDailyReportInterface[]
   >([]);
-  const [sumOnXAxesServicePackages, setSumOnXAxesServicePackages] =
-    useState<number>(0);
-  const [sumOnXAxesReservations, setSumOnXAxesReservations] =
-    useState<number>(0);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [activeTabKey, setActiveTabKey] = useState<string>(
     "reservationReportTab"
@@ -50,31 +46,38 @@ const ReportPage = () => {
 
   useEffect(() => {
     if (filter?.groupDataType) {
-      getReservationDailyReports(filter).then((res) => {
-        setReservationDailyReport(res);
-      });
-      getServicePackageDailyReports(filter).then((res) => {
-        setServicePackageDailyReport(res);
-      });
+      if (activeTabKey === "reservationReportTab") {
+        getReservationDailyReports(filter).then((res) => {
+          setReservationDailyReport(res);
+        });
+      }
+      if (activeTabKey === "servicePackageReportTab") {
+        getServicePackageDailyReports(filter).then((res) => {
+          setServicePackageDailyReport(res);
+        });
+      }
     }
-  }, [filter]);
+  }, [filter, activeTabKey]);
 
-  useEffect(() => {
-    const totalReservations = reservationDailyReport.reduce(
-      (total, reservation) => {
-        return total + reservation.numberOfReservation;
-      },
-      0
-    );
-    const totalServicePackages = servicePackageDailyReport.reduce(
-      (total, reservation) => {
-        return total + reservation.numberOfUsedPackages;
-      },
-      0
-    );
-    setSumOnXAxesReservations(totalReservations);
-    setSumOnXAxesServicePackages(totalServicePackages);
-  }, [reservationDailyReport, servicePackageDailyReport]);
+  const sumOnXAxesReservations = useMemo(() => {
+    if (activeTabKey === "reservationReportTab") {
+      return reservationDailyReport.reduce(
+        (total, reservation) => total + reservation.numberOfReservation,
+        0
+      );
+    }
+    return 0;
+  }, [reservationDailyReport, activeTabKey]);
+
+  const sumOnXAxesServicePackages = useMemo(() => {
+    if (activeTabKey === "servicePackageReportTab") {
+      return servicePackageDailyReport.reduce(
+        (total, pkg) => total + pkg.numberOfUsedPackages,
+        0
+      );
+    }
+    return 0;
+  }, [servicePackageDailyReport, activeTabKey]);
 
   //------------------METHODS------------------
 
@@ -90,7 +93,6 @@ const ReportPage = () => {
   };
 
   const handleCancelReportModal = () => {
-    setActiveTabKey("reservationReportTab");
     setIsModalVisible(false);
     setGenerateAllDays(false);
     setSelectedDate(null);

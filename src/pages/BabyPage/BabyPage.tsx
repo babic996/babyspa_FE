@@ -13,7 +13,7 @@ import "./BabyPage.scss";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { BabyInterface } from "../../interfaces/BabyInterface";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getBabyValidationSchema } from "../../validations/BabyValidationSchema";
 import {
@@ -33,14 +33,14 @@ import FilterComponent from "../../components/FilterComponent/FilterComponent";
 import { useFilter } from "../../context/Filter/useFilter";
 
 const BabyPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const isModalOpen = useRef<boolean>(false);
+  const isInfoModalVisible = useRef<boolean>(false);
   const [cursor, setCursor] = useState<number>(1);
   const [babies, setBabies] = useState<BabyInterface[]>([]);
   const [totalElements, setTotalElements] = useState<number>();
   const [isEditBaby, setIsEditBaby] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentNote, setCurrentNote] = useState<string>("");
-  const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
   const schema = getBabyValidationSchema(isEditBaby);
   const { filter } = useFilter();
 
@@ -81,7 +81,7 @@ const BabyPage = () => {
       motherName: record?.motherName ?? "",
       note: record?.note ?? "",
     });
-    setIsModalOpen(true);
+    isModalOpen.current = true;
   };
 
   const handleDelete = async (babyId?: number | null) => {
@@ -113,7 +113,7 @@ const BabyPage = () => {
       note: "",
     });
     setIsEditBaby(false);
-    setIsModalOpen(false);
+    isModalOpen.current = false;
   };
 
   const handleCreateModal = () => {
@@ -128,7 +128,7 @@ const BabyPage = () => {
       note: "",
     });
     setIsEditBaby(false);
-    setIsModalOpen(true);
+    isModalOpen.current = true;
   };
 
   const nextPage = (page: number) => {
@@ -137,11 +137,11 @@ const BabyPage = () => {
 
   const handleOpenInfoModal = (note: string) => {
     setCurrentNote(note);
-    setIsInfoModalVisible(true);
+    isInfoModalVisible.current = true;
   };
 
   const handleCloseInfoModal = () => {
-    setIsInfoModalVisible(false);
+    isInfoModalVisible.current = false;
     setCurrentNote("");
   };
 
@@ -155,14 +155,14 @@ const BabyPage = () => {
             baby.babyId == data.babyId ? { ...baby, ...res.data.data } : baby
           )
         );
-        setIsModalOpen(false);
+        isModalOpen.current = false;
         toastSuccessNotification("Ažurirano!");
       } else {
         await addBaby(data);
         const result = await getBabies(cursor - 1, null);
         setBabies(result.data.content);
         setTotalElements(result.data.totalElements);
-        setIsModalOpen(false);
+        isModalOpen.current = false;
         toastSuccessNotification("Sačuvano!");
       }
     } catch (e) {
@@ -270,7 +270,7 @@ const BabyPage = () => {
   return (
     <>
       <InfoModal
-        visible={isInfoModalVisible}
+        visible={isInfoModalVisible.current}
         onClose={handleCloseInfoModal}
         fullText={currentNote}
       />
@@ -283,7 +283,7 @@ const BabyPage = () => {
           )
         }
         maskClosable={false}
-        open={isModalOpen}
+        open={isModalOpen.current}
         footer={null}
         onCancel={handleModalCancel}
       >

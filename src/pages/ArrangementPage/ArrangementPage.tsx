@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CreateOrUpdateArrangementInterface,
   TableArrangementInterface,
@@ -56,7 +56,7 @@ import { ReservationShortDetailsInterface } from "../../interfaces/ReservationSh
 import ReservationInfoModal from "../../components/ReservationInfoModal/ReservationInfoModal";
 
 const ArrangementPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const isModalOpen = useRef<boolean>(false);
   const [cursor, setCursor] = useState<number>(1);
   const [arrangements, setArrangements] = useState<TableArrangementInterface[]>(
     []
@@ -76,8 +76,7 @@ const ArrangementPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentNote, setCurrentNote] = useState<string>("");
   const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
-  const [isReservationInfoModalVisible, setIsReservationInfoModalVisible] =
-    useState<boolean>(false);
+  const isReservationInfoModalVisible = useRef<boolean>(false);
   const [hidePaymentType, setHidePaymentType] = useState<boolean>(false);
   const [disableEditField, setDisableEditField] = useState<boolean>(false);
   const schema = getArrangementValidationSchema(isEditArrangement);
@@ -157,7 +156,7 @@ const ArrangementPage = () => {
       servicePackageId: record.servicePackageId,
       statusId: record.statusId,
     });
-    setIsModalOpen(true);
+    isModalOpen.current = true;
   };
 
   const handleDelete = async (arrangementId?: number | null) => {
@@ -183,7 +182,7 @@ const ArrangementPage = () => {
       try {
         const result = await getReservationsByArrangement(arrangementId);
         setRervationShortDetails(result);
-        setIsReservationInfoModalVisible(true);
+        isReservationInfoModalVisible.current = true;
       } catch (e) {
         errorResponse(e);
       } finally {
@@ -204,7 +203,7 @@ const ArrangementPage = () => {
     });
     setIsEditArrangement(false);
     setDisableEditField(false);
-    setIsModalOpen(false);
+    isModalOpen.current = false;
   };
 
   const handleCreateModal = () => {
@@ -219,7 +218,7 @@ const ArrangementPage = () => {
     });
     setIsEditArrangement(false);
     setDisableEditField(false);
-    setIsModalOpen(true);
+    isModalOpen.current = true;
   };
 
   const handleOpenInfoModal = (note: string) => {
@@ -233,7 +232,7 @@ const ArrangementPage = () => {
   };
 
   const handleCloseReservationInfoModal = () => {
-    setIsReservationInfoModalVisible(false);
+    isReservationInfoModalVisible.current = false;
     setRervationShortDetails([]);
   };
 
@@ -258,7 +257,7 @@ const ArrangementPage = () => {
                 : item
             )
           );
-          setIsModalOpen(false);
+          isModalOpen.current = false;
           toastSuccessNotification("Ažurirano!");
         }
       } else {
@@ -266,7 +265,7 @@ const ArrangementPage = () => {
         const result = await getArrangements(cursor - 1, null);
         setArrangements(result.data.content);
         setTotalElements(result.data.totalElements);
-        setIsModalOpen(false);
+        isModalOpen.current = false;
         toastSuccessNotification("Sačuvano!");
       }
     } catch (e) {
@@ -424,7 +423,7 @@ const ArrangementPage = () => {
         fullText={currentNote}
       />
       <ReservationInfoModal
-        visible={isReservationInfoModalVisible}
+        visible={isReservationInfoModalVisible.current}
         onClose={handleCloseReservationInfoModal}
         reservations={reservationShortDetails}
       />
@@ -437,7 +436,7 @@ const ArrangementPage = () => {
           )
         }
         maskClosable={false}
-        open={isModalOpen}
+        open={isModalOpen.current}
         footer={null}
         onCancel={handleModalCancel}
       >

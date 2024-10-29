@@ -11,7 +11,7 @@ import {
 import "./HomePage.scss";
 import { PlusOutlined } from "@ant-design/icons";
 import CalendarComponent from "../../components/CalendarComponent/CalendarComponent";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CreateOrUpdateReservationInterface,
   OverviewReservationInterface,
@@ -38,7 +38,7 @@ import { getReservationSchema } from "../../validations/ReservationValidationSch
 import { errorResponse } from "../../util/const";
 
 const HomePage = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const isModalOpen = useRef<boolean>(false);
   const [isEditReservation, setIsEditReservation] = useState<boolean>(false);
   const [status, setStatus] = useState<StatusInterface[]>([]);
   const [reservations, setReservations] = useState<
@@ -57,6 +57,8 @@ const HomePage = () => {
   } = useForm<CreateOrUpdateReservationInterface>({
     resolver: yupResolver(reservationSchema),
   });
+
+  //------------------LIFECYCLE----------------
 
   useEffect(() => {
     Promise.all([
@@ -84,7 +86,7 @@ const HomePage = () => {
       note: record?.note,
       statusId: record.statusId,
     });
-    setIsModalOpen(true);
+    isModalOpen.current = true;
   };
 
   const handleDelete =
@@ -107,7 +109,7 @@ const HomePage = () => {
             });
         });
       }
-      setIsModalOpen(false);
+      isModalOpen.current = false;
     };
 
   const handleModalCancel = () => {
@@ -120,7 +122,7 @@ const HomePage = () => {
       note: "",
     });
     setIsEditReservation(false);
-    setIsModalOpen(false);
+    isModalOpen.current = false;
   };
 
   const handleCreateModal = () => {
@@ -133,7 +135,7 @@ const HomePage = () => {
       note: "",
     });
     setIsEditReservation(false);
-    setIsModalOpen(true);
+    isModalOpen.current = true;
   };
 
   const onSubmit: SubmitHandler<CreateOrUpdateReservationInterface> = async (
@@ -150,7 +152,7 @@ const HomePage = () => {
               : item
           )
         );
-        setIsModalOpen(false);
+        isModalOpen.current = false;
         toastSuccessNotification("Ažurirano!");
       } catch (e) {
         errorResponse(e);
@@ -166,7 +168,7 @@ const HomePage = () => {
         const arrangements = await getArrangementsList();
         setArrangements(arrangements);
 
-        setIsModalOpen(false);
+        isModalOpen.current = false;
         toastSuccessNotification("Sačuvano!");
       } catch (e) {
         errorResponse(e);
@@ -192,7 +194,7 @@ const HomePage = () => {
           </div>
         }
         maskClosable={false}
-        open={isModalOpen}
+        open={isModalOpen.current}
         footer={null}
         width={800}
         onCancel={handleModalCancel}

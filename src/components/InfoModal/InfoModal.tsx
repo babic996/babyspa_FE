@@ -19,7 +19,12 @@ const InfoModal: React.FC<InfoModalProps> = ({
     </React.Fragment>
   ));
   return (
-    <Modal title="Bilješka" open={visible} onCancel={onClose} footer={null}>
+    <Modal
+      title={<div style={{ textAlign: "center" }}>Bilješka</div>}
+      open={visible}
+      onCancel={onClose}
+      footer={null}
+    >
       <p>{formattedText}</p>
     </Modal>
   );

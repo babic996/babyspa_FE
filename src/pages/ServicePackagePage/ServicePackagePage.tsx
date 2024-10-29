@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ServicePackageInterface } from "../../interfaces/ServicePackageInterface";
 import {
   addServicePackage,
@@ -31,7 +31,8 @@ import { useFilter } from "../../context/Filter/useFilter";
 import { AxiosError } from "axios";
 
 const ServicePackagePage = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const isModalOpen = useRef<boolean>(false);
+  const isInfoModalVisible = useRef<boolean>(false);
   const [cursor, setCursor] = useState<number>(1);
   const [servicePackages, setServicePackages] = useState<
     ServicePackageInterface[]
@@ -41,7 +42,6 @@ const ServicePackagePage = () => {
     useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentNote, setCurrentNote] = useState<string>("");
-  const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
   const schema = getServicePackageValidationSchema(isEditServicePackage);
   const { filter } = useFilter();
 
@@ -84,7 +84,7 @@ const ServicePackagePage = () => {
       price: record.price,
       note: record?.note ?? "",
     });
-    setIsModalOpen(true);
+    isModalOpen.current = true;
   };
 
   const handleDelete = async (servicePackageId?: number | null) => {
@@ -119,7 +119,7 @@ const ServicePackagePage = () => {
       note: "",
     });
     setIsEditServicePackage(false);
-    setIsModalOpen(false);
+    isModalOpen.current = false;
   };
 
   const handleCreateModal = () => {
@@ -132,16 +132,16 @@ const ServicePackagePage = () => {
       note: "",
     });
     setIsEditServicePackage(false);
-    setIsModalOpen(true);
+    isModalOpen.current = true;
   };
 
   const handleOpenInfoModal = (note: string) => {
     setCurrentNote(note);
-    setIsInfoModalVisible(true);
+    isInfoModalVisible.current = true;
   };
 
   const handleCloseInfoModal = () => {
-    setIsInfoModalVisible(false);
+    isInfoModalVisible.current = false;
     setCurrentNote("");
   };
 
@@ -157,14 +157,14 @@ const ServicePackagePage = () => {
               : item
           )
         );
-        setIsModalOpen(false);
+        isModalOpen.current = false;
         toastSuccessNotification("Ažurirano!");
       } else {
         await addServicePackage(data);
         const result = await getServicePackages(cursor - 1, null);
         setServicePackages(result.data.content);
         setTotalElements(result.data.totalElements);
-        setIsModalOpen(false);
+        isModalOpen.current = false;
         toastSuccessNotification("Sačuvano!");
       }
     } catch (e) {
@@ -260,7 +260,7 @@ const ServicePackagePage = () => {
   return (
     <>
       <InfoModal
-        visible={isInfoModalVisible}
+        visible={isInfoModalVisible.current}
         onClose={handleCloseInfoModal}
         fullText={currentNote}
       />
@@ -273,7 +273,7 @@ const ServicePackagePage = () => {
           )
         }
         maskClosable={false}
-        open={isModalOpen}
+        open={isModalOpen.current}
         footer={null}
         onCancel={handleModalCancel}
       >
