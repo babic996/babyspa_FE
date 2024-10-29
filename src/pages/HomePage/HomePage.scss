@@ -1,19 +1,29 @@
 .container {
   padding: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
-.custom-button {
-  display: inline-block;
+.button-legend-container {
+  display: flex;
+  align-items: center;
   margin-bottom: 16px;
 }
 
-.calendar-wrapper {
-  width: 100%;
-  max-width: 100%; /* Kalendarska komponenta zauzima maksimalnu širinu */
+.legend {
   display: flex;
-  justify-content: center; /* Centriranje kalendara */
+  align-items: center;
+  margin-left: 16px;
 }
 
-.calendar-wrapper > * {
-  width: 100%; /* Kalendarska komponenta zauzima punu širinu */
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
 }

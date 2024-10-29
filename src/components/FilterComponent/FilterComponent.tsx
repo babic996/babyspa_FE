@@ -25,6 +25,7 @@ interface FilterComponentProps {
   showRemainingTerm?: boolean;
   showStatusSelect?: boolean;
   showPaymentTypeSelect?: boolean;
+  showArrangementIdSearch?: boolean;
   showGroupReportData?: boolean;
   statusTypeCode?: string;
 }
@@ -41,6 +42,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
   showStatusSelect = false,
   showPaymentTypeSelect = false,
   showGroupReportData = false,
+  showArrangementIdSearch = false,
   statusTypeCode,
 }) => {
   const { filter, setFilter } = useFilter();
@@ -107,6 +109,13 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
     }));
   };
 
+  const handleArrangementIdInput = (value: number | null) => {
+    setFilter((prev) => ({
+      ...prev,
+      arrangementId: value,
+    }));
+  };
+
   const handleEndPriceChange = (value: number | null) => {
     setFilter((prev) => ({
       ...prev,
@@ -134,6 +143,25 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             status="warning"
             onSearch={handleSearchChange}
             onChange={handleInputChange}
+            style={{ width: "100%" }}
+          />
+        </div>
+      )}
+      {showArrangementIdSearch && (
+        <div
+          style={{
+            width: "20%",
+            marginRight: 20,
+            marginBottom: 16,
+            flexShrink: 0,
+          }}
+        >
+          <InputNumber
+            placeholder="ID aranžmana..."
+            status="warning"
+            min={1}
+            step={1}
+            onChange={handleArrangementIdInput}
             style={{ width: "100%" }}
           />
         </div>

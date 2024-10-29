@@ -3,7 +3,7 @@ import { FaHome, FaChild, FaBoxes, FaFileAlt, FaListUl } from "react-icons/fa";
 import { useState } from "react";
 import { Layout as AntLayout, Menu } from "antd";
 import "./Layout.scss";
-const { Sider, Content } = AntLayout;
+const { Sider, Content, Footer } = AntLayout;
 
 const Layout = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -51,7 +51,12 @@ const Layout = () => {
 
   return (
     <AntLayout style={{ minHeight: "100vh" }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={toggleSidebar}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={toggleSidebar}
+        width={220}
+      >
         <div style={{ padding: "16px", textAlign: "center" }}>
           <img
             src="/logo.jpg"
@@ -68,16 +73,7 @@ const Layout = () => {
         />
       </Sider>
       <AntLayout>
-        <Content
-          style={{
-            margin: "0px",
-            padding: "0px",
-            backgroundImage: "url('/backgroundimage.jpg')", // zameni sa tačnom putanjom do slike
-            backgroundSize: "cover", // prilagodi veličinu slike
-            backgroundPosition: "center", // centriraj sliku
-            borderRadius: "0px",
-          }}
-        >
+        <Content className="content">
           <Outlet />
         </Content>
       </AntLayout>

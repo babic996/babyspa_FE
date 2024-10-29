@@ -9,6 +9,7 @@ export interface FilterInterface {
   paymentTypeId?: number | null;
   servicePackageId?: number | null;
   remainingTerm?: number | null;
+  arrangementId?: number | null;
   date?: string | null;
   groupDataType?: string | null;
 }

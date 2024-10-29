@@ -38,6 +38,10 @@ export const getArrangements = async (
     filterString += `&statusId=${filter.statusId}`;
   }
 
+  if (filter?.arrangementId) {
+    filterString += `&arrangementId=${filter.arrangementId}`;
+  }
+
   const result = await request({
     url: `/arrangement/find-all?page=${cursor}&size=${DEFAULT_PAGE_SIZE}${filterString}`,
     method: "get",

@@ -350,14 +350,47 @@ const HomePage = () => {
       </Modal>
       {loading && <FullPageSpiner />}
       <div className="container">
-        <Button
-          type="primary"
-          className="custom-button"
-          onClick={handleCreateModal}
-          icon={<PlusOutlined />}
-        >
-          Dodaj rezervaciju
-        </Button>
+        <div className="button-legend-container">
+          <Button
+            type="primary"
+            className="custom-button"
+            onClick={handleCreateModal}
+            icon={<PlusOutlined />}
+          >
+            Dodaj rezervaciju
+          </Button>
+
+          <div className="legend">
+            <div className="legend-item">
+              <div
+                className="color-box"
+                style={{ backgroundColor: "#16c9d3" }}
+              />
+              <span>Rezervisan termin</span>
+            </div>
+            <div className="legend-item">
+              <div
+                className="color-box"
+                style={{ backgroundColor: "#f40511" }}
+              />
+              <span>Otkazan termin</span>
+            </div>
+            <div className="legend-item">
+              <div
+                className="color-box"
+                style={{ backgroundColor: "#4caf50" }}
+              />
+              <span>Iskorišten termin</span>
+            </div>
+            <div className="legend-item">
+              <div
+                className="color-box"
+                style={{ backgroundColor: "#ff660d" }}
+              />
+              <span>Termin nije iskorišten</span>
+            </div>
+          </div>
+        </div>
         <div className="calendar-wrapper">
           <CalendarComponent
             reservations={reservations}

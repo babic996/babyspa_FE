@@ -611,6 +611,7 @@ const ArrangementPage = () => {
           showSelectServicePackages={true}
           showPaymentTypeSelect={true}
           showStatusSelect={true}
+          showArrangementIdSearch={true}
           statusTypeCode="arrangement"
           showRemainingTerm={true}
         />
