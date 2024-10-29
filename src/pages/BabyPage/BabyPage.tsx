@@ -245,21 +245,22 @@ const BabyPage = () => {
       },
     },
     {
-      title: "Uredi",
+      title: "Akcije",
       key: "actions",
       render: (_, record) => (
         <>
           <EditOutlined
+            title="Uredi"
             style={{ marginRight: 16 }}
             onClick={() => handleEdit(record)}
           />
           <Popconfirm
-            title="Da li ste sigurni da želite obrisati ovu bebu?"
+            title="Da li ste sigurni da želite izbrisati ovu bebu?"
             onConfirm={() => handleDelete(record.babyId)}
             okText="Da"
             cancelText="Ne"
           >
-            <DeleteOutlined style={{ color: "red" }} />
+            <DeleteOutlined style={{ color: "red" }} title="Izbriši" />
           </Popconfirm>
         </>
       ),

@@ -235,11 +235,12 @@ const ServicePackagePage = () => {
       },
     },
     {
-      title: "Uredi",
+      title: "Akcije",
       key: "actions",
       render: (_, record) => (
         <>
           <EditOutlined
+            title="Uredi"
             style={{ marginRight: 16 }}
             onClick={() => handleEdit(record)}
           />
@@ -249,7 +250,7 @@ const ServicePackagePage = () => {
             okText="Da"
             cancelText="Ne"
           >
-            <DeleteOutlined style={{ color: "red" }} />
+            <DeleteOutlined style={{ color: "red" }} title="Izbriši" />
           </Popconfirm>
         </>
       ),

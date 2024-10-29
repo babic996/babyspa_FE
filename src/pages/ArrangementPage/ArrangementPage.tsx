@@ -383,12 +383,13 @@ const ArrangementPage = () => {
       },
     },
     {
-      title: "Uredi",
+      title: "Akcije",
       key: "actions",
       render: (_, record) => (
         <>
           <EditOutlined
             style={{ marginRight: 12 }}
+            title="Uredi"
             onClick={() => {
               const arrangementDto: CreateOrUpdateArrangementInterface =
                 convertTableArrangementToCreateOrUpdateArrangement(record);
@@ -401,10 +402,14 @@ const ArrangementPage = () => {
             okText="Da"
             cancelText="Ne"
           >
-            <DeleteOutlined style={{ color: "red", marginRight: 12 }} />
+            <DeleteOutlined
+              style={{ color: "red", marginRight: 12 }}
+              title="Izbriši"
+            />
           </Popconfirm>
           <ContactsOutlined
             onClick={() => handleGetReservation(record?.arrangementId)}
+            title="Rezervacije"
           />
         </>
       ),
