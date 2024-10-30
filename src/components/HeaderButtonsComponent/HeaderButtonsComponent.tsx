@@ -1,13 +1,13 @@
-import { Button } from "antd";
 import { useFilter } from "../../context/Filter/useFilter";
-import { PlusOutlined, FilterOutlined } from "@ant-design/icons";
+import AddButton from "../ButtonComponents/AddButton";
+import FilterButton from "../ButtonComponents/FilterButton";
 
 const HeaderButtonsComponent = ({
   onButtonAction,
   buttonTitle,
 }: {
-  onButtonAction?: () => void;
-  buttonTitle?: string | null;
+  onButtonAction: () => void;
+  buttonTitle: string;
 }) => {
   const { onResetFilter } = useFilter();
 
@@ -20,22 +20,16 @@ const HeaderButtonsComponent = ({
         justifyContent: "space-between",
       }}
     >
-      <Button
-        type="primary"
-        onClick={onButtonAction}
-        style={{ marginBottom: 16 }}
-        icon={<PlusOutlined />}
-      >
-        {buttonTitle}
-      </Button>
-      <Button
-        type="primary"
-        onClick={onResetFilter}
-        icon={<FilterOutlined />}
-        style={{ marginBottom: 16 }}
-      >
-        Reset filtera
-      </Button>
+      <AddButton
+        buttonTitle={buttonTitle}
+        onButtonAction={onButtonAction}
+        buttonStyle={{ marginBottom: 16 }}
+      />
+      <FilterButton
+        buttonTitle="Reset filtera"
+        onButtonAction={onResetFilter}
+        buttonStyle={{ marginBottom: 16 }}
+      />
     </div>
   );
 };

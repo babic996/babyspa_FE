@@ -139,7 +139,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             flexShrink: 0,
           }}
         >
-          <Input.Search
+          <Input
             placeholder="Pretraži..."
             status="warning"
             value={searchText}

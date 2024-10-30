@@ -9,7 +9,6 @@ import {
   Popconfirm,
 } from "antd";
 import "./HomePage.scss";
-import { PlusOutlined } from "@ant-design/icons";
 import CalendarComponent from "../../components/CalendarComponent/CalendarComponent";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -36,6 +35,7 @@ import FullPageSpiner from "../../components/FullPageSpiner/FullPageSpiner";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getReservationSchema } from "../../validations/ReservationValidationSchema";
 import { errorResponse } from "../../util/const";
+import AddButton from "../../components/ButtonComponents/AddButton";
 
 const HomePage = () => {
   const isModalOpen = useRef<boolean>(false);
@@ -353,14 +353,11 @@ const HomePage = () => {
       {loading && <FullPageSpiner />}
       <div className="container">
         <div className="button-legend-container">
-          <Button
-            type="primary"
-            className="custom-button"
-            onClick={handleCreateModal}
-            icon={<PlusOutlined />}
-          >
-            Dodaj rezervaciju
-          </Button>
+          <AddButton
+            buttonTitle=" Dodaj rezervaciju"
+            onButtonAction={handleCreateModal}
+            buttonStyle={{ marginBottom: 16 }}
+          />
 
           <div className="legend">
             <div className="legend-item">

@@ -1,5 +1,6 @@
 import React, { createContext, useState, ReactNode } from "react";
 import { FilterInterface } from "../../interfaces/FilterInterface";
+import { groupDataReportType } from "../../util/const";
 
 interface FilterContextType {
   filter: FilterInterface;
@@ -21,7 +22,21 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
 
   const onResetFilter = () => {
     setSearchText("");
-    setFilter({});
+    setFilter({
+      arrangementId: null,
+      babyId: null,
+      date: null,
+      endPrice: null,
+      startPrice: null,
+      startRangeDate: null,
+      endRangeDate: null,
+      groupDataType: groupDataReportType.find((x) => (x.value = "day"))?.value,
+      paymentTypeId: null,
+      remainingTerm: null,
+      servicePackageId: null,
+      searchText: "",
+      statusId: null,
+    });
   };
 
   return (
