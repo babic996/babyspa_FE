@@ -22,13 +22,14 @@ import {
 import FilterComponent from "../../components/FilterComponent/FilterComponent";
 import { DEFAULT_PAGE_SIZE, errorResponse } from "../../util/const";
 import type { ColumnsType } from "antd/es/table";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { getServicePackageValidationSchema } from "../../validations/ServicePackageValidationSchema";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InfoModal from "../../components/InfoModal/InfoModal";
 import { useFilter } from "../../context/Filter/useFilter";
 import { AxiosError } from "axios";
+import HeaderButtonsComponent from "../../components/HeaderButtonsComponent/HeaderButtonsComponent";
 
 const ServicePackagePage = () => {
   const isModalOpen = useRef<boolean>(false);
@@ -370,18 +371,10 @@ const ServicePackagePage = () => {
         </Form>
       </Modal>
       <div style={{ maxWidth: "100%", padding: "16px" }}>
-        <div
-          style={{ display: "flex", alignItems: "center", marginBottom: 16 }}
-        >
-          <Button
-            type="primary"
-            onClick={handleCreateModal}
-            style={{ marginBottom: 16 }}
-            icon={<PlusOutlined />}
-          >
-            Dodaj paket usluge
-          </Button>
-        </div>
+        <HeaderButtonsComponent
+          buttonTitle="Dodaj paket usluge"
+          onButtonAction={handleCreateModal}
+        />
         <FilterComponent showSearch={true} showPriceSlider={true} />
         <Table
           columns={columns}

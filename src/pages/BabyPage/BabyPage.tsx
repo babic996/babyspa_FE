@@ -10,7 +10,7 @@ import {
   DatePicker,
 } from "antd";
 import "./BabyPage.scss";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { BabyInterface } from "../../interfaces/BabyInterface";
 import { useEffect, useRef, useState } from "react";
@@ -31,6 +31,7 @@ import {
 } from "../../util/toastNotification";
 import FilterComponent from "../../components/FilterComponent/FilterComponent";
 import { useFilter } from "../../context/Filter/useFilter";
+import HeaderButtonsComponent from "../../components/HeaderButtonsComponent/HeaderButtonsComponent";
 
 const BabyPage = () => {
   const isModalOpen = useRef<boolean>(false);
@@ -409,18 +410,10 @@ const BabyPage = () => {
         </Form>
       </Modal>
       <div style={{ maxWidth: "100%", padding: "16px" }}>
-        <div
-          style={{ display: "flex", alignItems: "center", marginBottom: 16 }}
-        >
-          <Button
-            type="primary"
-            onClick={handleCreateModal}
-            style={{ marginBottom: 16 }}
-            icon={<PlusOutlined />}
-          >
-            Dodaj bebu
-          </Button>
-        </div>
+        <HeaderButtonsComponent
+          buttonTitle="Dodaj bebu"
+          onButtonAction={handleCreateModal}
+        />
         <FilterComponent
           showSearch={true}
           showRangePicker={true}

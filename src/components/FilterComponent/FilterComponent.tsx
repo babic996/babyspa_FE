@@ -45,7 +45,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
   showArrangementIdSearch = false,
   statusTypeCode,
 }) => {
-  const { filter, setFilter } = useFilter();
+  const { filter, setFilter, searchText, setSearchText } = useFilter();
   const [babies, setBabies] = useState<ShortDetailsInterface[]>([]);
   const [servicePackages, setServicePackages] = useState<
     ShortDetailsInterface[]
@@ -99,6 +99,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setSearchText(value);
     handleSearchChange(value);
   };
 
@@ -141,7 +142,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
           <Input.Search
             placeholder="Pretraži..."
             status="warning"
-            onSearch={handleSearchChange}
+            value={searchText}
             onChange={handleInputChange}
             style={{ width: "100%" }}
           />
@@ -162,6 +163,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             min={1}
             step={1}
             onChange={handleArrangementIdInput}
+            value={filter?.arrangementId}
             style={{ width: "100%" }}
           />
         </div>
@@ -180,6 +182,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             status="warning"
             min={0}
             style={{ width: "100%" }}
+            value={filter?.remainingTerm}
             onChange={handleRemainingTermInputChange}
           />
         </div>
@@ -193,7 +196,11 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             flexShrink: 0,
           }}
         >
-          <DatePicker status="warning" style={{ width: "100%" }} />
+          <DatePicker
+            status="warning"
+            style={{ width: "100%" }}
+            value={filter.date ? dayjs(filter.date) : null}
+          />
         </div>
       )}
       {showRangePicker && (
@@ -325,6 +332,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             placeholder="Odaberi tip plaćanja"
             allowClear
             style={{ width: "100%" }}
+            value={filter?.paymentTypeId}
             status="warning"
             onChange={(value) => {
               setFilter((prev) => ({
@@ -415,6 +423,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             placeholder="Cijena od"
             status="warning"
             onChange={handleStartPriceChange}
+            value={filter?.startPrice}
             step={0.1}
             style={{ flex: 1 }}
           />
@@ -423,6 +432,7 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             placeholder="Cijena do"
             status="warning"
             onChange={handleEndPriceChange}
+            value={filter?.endPrice}
             step={0.1}
             style={{ flex: 1 }}
           />

@@ -25,6 +25,7 @@ import dayjs, { Dayjs } from "dayjs";
 import type { CheckboxProps } from "antd";
 import { toastSuccessNotification } from "../../util/toastNotification";
 import { groupDataReportType } from "../../util/const";
+import { FilterOutlined } from "@ant-design/icons";
 
 const ReportPage = () => {
   const [reservationDailyReport, setReservationDailyReport] = useState<
@@ -40,7 +41,7 @@ const ReportPage = () => {
   );
   const [generateAllDays, setGenerateAllDays] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
-  const { filter, setFilter } = useFilter();
+  const { filter, setFilter, onResetFilter } = useFilter();
 
   //------------------LIFECYCLE------------------
 
@@ -188,6 +189,16 @@ const ReportPage = () => {
           defaultActiveKey="reservationReportTab"
           activeKey={activeTabKey}
           onChange={handleTabChange}
+          tabBarExtraContent={
+            <Button
+              type="primary"
+              style={{ marginRight: 16 }}
+              onClick={onResetFilter}
+              icon={<FilterOutlined />}
+            >
+              Reset filtera
+            </Button>
+          }
           size="large"
           items={[
             {

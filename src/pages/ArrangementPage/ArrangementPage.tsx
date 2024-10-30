@@ -18,7 +18,6 @@ import type { ColumnsType } from "antd/es/table";
 import {
   EditOutlined,
   DeleteOutlined,
-  PlusOutlined,
   ContactsOutlined,
 } from "@ant-design/icons";
 import {
@@ -54,6 +53,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { getArrangementValidationSchema } from "../../validations/ArrangementValidationSchema";
 import { ReservationShortDetailsInterface } from "../../interfaces/ReservationShortDetailsInterface";
 import ReservationInfoModal from "../../components/ReservationInfoModal/ReservationInfoModal";
+import HeaderButtonsComponent from "../../components/HeaderButtonsComponent/HeaderButtonsComponent";
 
 const ArrangementPage = () => {
   const isModalOpen = useRef<boolean>(false);
@@ -647,18 +647,10 @@ const ArrangementPage = () => {
         </Form>
       </Modal>
       <div style={{ maxWidth: "100%", padding: "16px" }}>
-        <div
-          style={{ display: "flex", alignItems: "center", marginBottom: 16 }}
-        >
-          <Button
-            type="primary"
-            onClick={handleCreateModal}
-            icon={<PlusOutlined />}
-            style={{ marginBottom: 16 }}
-          >
-            Dodaj aranžman
-          </Button>
-        </div>
+        <HeaderButtonsComponent
+          buttonTitle="Dodaj aranžman"
+          onButtonAction={handleCreateModal}
+        />
         <FilterComponent
           showSelectBebies={true}
           showPriceSlider={true}
