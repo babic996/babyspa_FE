@@ -247,7 +247,7 @@ const ArrangementPage = () => {
             status.find((x) => x.statusCode == "paid")?.statusId &&
           !data.paymentTypeId!!
         ) {
-          toastErrorNotification("Morate izabrati tip plaćnja!");
+          toastErrorNotification("Morate izabrati tip plaćanja!");
         } else {
           const res = await editArrangement(data);
           setArrangements((prev) =>
