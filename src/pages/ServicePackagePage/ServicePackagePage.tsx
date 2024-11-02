@@ -30,6 +30,7 @@ import InfoModal from "../../components/InfoModal/InfoModal";
 import { useFilter } from "../../context/Filter/useFilter";
 import { AxiosError } from "axios";
 import HeaderButtonsComponent from "../../components/HeaderButtonsComponent/HeaderButtonsComponent";
+import { existsByServicePackageId } from "../../services/ArrangementService";
 
 const ServicePackagePage = () => {
   const isModalOpen = useRef<boolean>(false);
@@ -42,6 +43,8 @@ const ServicePackagePage = () => {
   const [isEditServicePackage, setIsEditServicePackage] =
     useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [existsByServicePackage, setExistsByServicePackage] =
+    useState<boolean>(false);
   const [currentNote, setCurrentNote] = useState<string>("");
   const schema = getServicePackageValidationSchema(isEditServicePackage);
   const { filter } = useFilter();
@@ -75,8 +78,16 @@ const ServicePackagePage = () => {
     setCursor(page);
   };
 
-  const handleEdit = (record: ServicePackageInterface) => {
+  const handleEdit = async (record: ServicePackageInterface) => {
     setIsEditServicePackage(true);
+    try {
+      if (record.servicePackageId) {
+        const res = await existsByServicePackageId(record.servicePackageId);
+        setExistsByServicePackage(res);
+      }
+    } catch (e) {
+      errorResponse(e);
+    }
     reset({
       servicePackageId: record.servicePackageId,
       servicePackageName: record.servicePackageName,
@@ -120,6 +131,7 @@ const ServicePackagePage = () => {
       note: "",
     });
     setIsEditServicePackage(false);
+    setExistsByServicePackage(false);
     isModalOpen.current = false;
   };
 
@@ -287,7 +299,9 @@ const ServicePackagePage = () => {
             <Controller
               name="servicePackageName"
               control={control}
-              render={({ field }) => <Input {...field} />}
+              render={({ field }) => (
+                <Input {...field} disabled={existsByServicePackage} />
+              )}
             />
           </Form.Item>
 
@@ -300,7 +314,12 @@ const ServicePackagePage = () => {
               name="termNumber"
               control={control}
               render={({ field }) => (
-                <InputNumber {...field} min={0} style={{ width: "100%" }} />
+                <InputNumber
+                  {...field}
+                  min={0}
+                  style={{ width: "100%" }}
+                  disabled={existsByServicePackage}
+                />
               )}
             />
           </Form.Item>
@@ -314,7 +333,12 @@ const ServicePackagePage = () => {
               name="servicePackageDurationDays"
               control={control}
               render={({ field }) => (
-                <InputNumber {...field} min={0} style={{ width: "100%" }} />
+                <InputNumber
+                  {...field}
+                  min={0}
+                  style={{ width: "100%" }}
+                  disabled={existsByServicePackage}
+                />
               )}
             />
           </Form.Item>

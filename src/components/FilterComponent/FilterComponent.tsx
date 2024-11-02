@@ -118,10 +118,12 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
   };
 
   const handleEndPriceChange = (value: number | null) => {
-    setFilter((prev) => ({
-      ...prev,
-      endPrice: value,
-    }));
+    if (filter.startPrice && value && value >= filter.startPrice) {
+      setFilter((prev) => ({
+        ...prev,
+        endPrice: value,
+      }));
+    }
   };
 
   const handleRemainingTermInputChange = (value: number | null) => {
@@ -433,6 +435,9 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
             status="warning"
             onChange={handleEndPriceChange}
             value={filter?.endPrice}
+            min={
+              filter.startPrice && filter.startPrice > 0 ? filter.startPrice : 0
+            }
             step={0.1}
             style={{ flex: 1 }}
           />

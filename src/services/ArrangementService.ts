@@ -81,3 +81,14 @@ export const deleteArrangement = (arrangementId: number) => {
     method: "delete",
   });
 };
+
+export const existsByServicePackageId = async (servicePackageId: number) => {
+  const request = baseRequest();
+
+  const result = await request({
+    url: `/arrangement/exists-by-service-package-id?servicePackageId=${servicePackageId}`,
+    method: "get",
+  });
+
+  return result?.data.data;
+};
