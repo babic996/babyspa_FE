@@ -424,6 +424,9 @@ const BabyPage = () => {
           loading={loading}
           dataSource={babies}
           rowKey="babyId"
+          locale={{
+            emptyText: "Nema podataka za prikazati",
+          }}
           pagination={{
             current: cursor,
             pageSize: DEFAULT_PAGE_SIZE,

@@ -405,6 +405,9 @@ const ServicePackagePage = () => {
           loading={loading}
           dataSource={servicePackages}
           rowKey="servicePackageId"
+          locale={{
+            emptyText: "Nema podataka za prikazati",
+          }}
           pagination={{
             current: cursor,
             pageSize: DEFAULT_PAGE_SIZE,

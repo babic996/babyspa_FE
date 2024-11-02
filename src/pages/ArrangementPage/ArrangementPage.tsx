@@ -92,8 +92,6 @@ const ArrangementPage = () => {
     resolver: yupResolver(schema),
   });
 
-  console.log(reservationShortDetails);
-
   //------------------LIFECYCLE------------------
 
   useEffect(() => {
@@ -666,6 +664,9 @@ const ArrangementPage = () => {
           loading={loading}
           dataSource={arrangements}
           rowKey="arrangementId"
+          locale={{
+            emptyText: "Nema podataka za prikazati",
+          }}
           pagination={{
             current: cursor,
             pageSize: DEFAULT_PAGE_SIZE,
