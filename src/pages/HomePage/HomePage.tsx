@@ -153,6 +153,8 @@ const HomePage = () => {
           )
         );
         isModalOpen.current = false;
+        const arrangements = await getArrangementsList();
+        setArrangements(arrangements);
         toastSuccessNotification("Ažurirano!");
       } catch (e) {
         errorResponse(e);
