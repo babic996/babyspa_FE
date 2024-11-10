@@ -1,6 +1,6 @@
 .custom-event {
   color: white;
-  padding: 5px;
+  padding-inline: 5px;
   border-radius: 4px;
 }
 
@@ -22,4 +22,8 @@
 
 .rbc-event {
   background-color: transparent !important;
+}
+
+.rbc-event-label {
+  color: black !important;
 }
