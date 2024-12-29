@@ -9,6 +9,7 @@ import {
   deleteArrangement,
   editArrangement,
   getArrangements,
+  getArrangementsPrice,
 } from "../../services/ArrangementService";
 import {
   toastErrorNotification,
@@ -24,11 +25,13 @@ import {
   Button,
   Form,
   Input,
+  InputNumber,
   Modal,
   Popconfirm,
   Select,
   Table,
   Tag,
+  Typography,
 } from "antd";
 import dayjs from "dayjs";
 import { convertTableArrangementToCreateOrUpdateArrangement } from "../../mappers/ArrangementMapper";
@@ -79,6 +82,7 @@ const ArrangementPage = () => {
   const isReservationInfoModalVisible = useRef<boolean>(false);
   const [hidePaymentType, setHidePaymentType] = useState<boolean>(false);
   const [disableEditField, setDisableEditField] = useState<boolean>(false);
+  const [totalSum, setTotalSum] = useState<number>(0);
   const schema = getArrangementValidationSchema(isEditArrangement);
   const { filter } = useFilter();
 
@@ -100,6 +104,13 @@ const ArrangementPage = () => {
         setArrangements(result.data.content);
         setTotalElements(result.data.totalElements);
         setLoading(false);
+      })
+      .catch((e) => {
+        toastErrorNotification(e.response.data.message);
+      });
+    getArrangementsPrice(filter)
+      .then((result) => {
+        setTotalSum(result.data);
       })
       .catch((e) => {
         toastErrorNotification(e.response.data.message);
@@ -153,6 +164,7 @@ const ArrangementPage = () => {
       note: record?.note ?? "",
       servicePackageId: record.servicePackageId,
       statusId: record.statusId,
+      extendDurationDays: record.extendDurationDays,
     });
     isModalOpen.current = true;
   };
@@ -243,7 +255,7 @@ const ArrangementPage = () => {
         if (
           data.statusId ===
             status.find((x) => x.statusCode == "paid")?.statusId &&
-          !data.paymentTypeId!!
+          data.paymentTypeId == null
         ) {
           toastErrorNotification("Morate izabrati tip plaćanja!");
         } else {
@@ -544,43 +556,58 @@ const ArrangementPage = () => {
           </Form.Item>
 
           {isEditArrangement && (
-            <Form.Item
-              label="Odaberi status"
-              validateStatus={errors.statusId ? "error" : ""}
-              help={errors.statusId?.message}
-            >
-              <Controller
-                name="statusId"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    placeholder="Odaberi status"
-                    value={field.value == 0 ? null : field.value}
-                    onChange={(value) => {
-                      field.onChange(value);
-                      if (
-                        status.find((x) => x.statusId == value)?.statusCode ==
-                          "created" ||
-                        status.find((x) => x.statusId == value)?.statusCode ==
-                          "not_paid"
-                      ) {
-                        setHidePaymentType(true);
-                        setValue("paymentTypeId", 0);
-                      } else {
-                        setHidePaymentType(false);
-                      }
-                    }}
-                  >
-                    {status?.map((x) => (
-                      <Select.Option key={x.statusId} value={x.statusId}>
-                        {x.statusName}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                )}
-              />
-            </Form.Item>
+            <>
+              <Form.Item
+                label="Odaberi status"
+                validateStatus={errors.statusId ? "error" : ""}
+                help={errors.statusId?.message}
+              >
+                <Controller
+                  name="statusId"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      placeholder="Odaberi status"
+                      value={field.value == 0 ? null : field.value}
+                      onChange={(value) => {
+                        field.onChange(value);
+                        if (
+                          status.find((x) => x.statusId == value)?.statusCode ==
+                            "created" ||
+                          status.find((x) => x.statusId == value)?.statusCode ==
+                            "not_paid"
+                        ) {
+                          setHidePaymentType(true);
+                          setValue("paymentTypeId", 0);
+                        } else {
+                          setHidePaymentType(false);
+                        }
+                      }}
+                    >
+                      {status?.map((x) => (
+                        <Select.Option key={x.statusId} value={x.statusId}>
+                          {x.statusName}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Povećaj broj dana"
+                validateStatus={errors.extendDurationDays ? "error" : ""}
+                help={errors.extendDurationDays?.message}
+              >
+                <Controller
+                  name="extendDurationDays"
+                  control={control}
+                  render={({ field }) => (
+                    <InputNumber {...field} min={0} style={{ width: "100%" }} />
+                  )}
+                />
+              </Form.Item>
+            </>
           )}
 
           {isEditArrangement && hidePaymentType == false && (
@@ -658,7 +685,13 @@ const ArrangementPage = () => {
           showArrangementIdSearch={true}
           statusTypeCode="arrangement"
           showRemainingTerm={true}
+          showRangePicker={true}
         />
+        {totalSum && (
+          <Typography.Text strong style={{ fontSize: 16 }}>
+            Suma cijena: {totalSum}KM
+          </Typography.Text>
+        )}
         <Table
           columns={columns}
           loading={loading}

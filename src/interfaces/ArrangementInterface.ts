@@ -8,6 +8,7 @@ export interface CreateOrUpdateArrangementInterface {
   statusId?: number | null;
   servicePackageId: number;
   paymentTypeId?: number | null;
+  extendDurationDays?: number | null;
 }
 
 export interface TableArrangementInterface {
@@ -16,6 +17,7 @@ export interface TableArrangementInterface {
   remainingTerm: number;
   price: number;
   note?: string | null;
+  extendDurationDays?: number | null;
   discount?: ShortDetailsInterface | null;
   babyDetails: ShortDetailsInterface;
   status: ShortDetailsInterface;

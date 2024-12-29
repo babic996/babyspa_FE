@@ -14,5 +14,6 @@ export const convertTableArrangementToCreateOrUpdateArrangement = (
     discountId: tableArrangement?.discount?.id,
     paymentTypeId: tableArrangement?.paymentType?.id,
     note: tableArrangement?.note,
+    extendDurationDays: tableArrangement?.extendDurationDays,
   };
 };

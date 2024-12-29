@@ -29,5 +29,6 @@ export const getArrangementValidationSchema = (isUpdate: boolean) => {
       .min(1, "Paket usluge je obavezan.")
       .required("Paket usluge je obavezan."),
     paymentTypeId: yup.number().nullable().optional(),
+    extendDurationDays: yup.number().nullable().optional(),
   });
 };

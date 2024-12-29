@@ -50,6 +50,50 @@ export const getArrangements = async (
   return result?.data;
 };
 
+export const getArrangementsPrice = async (filter: FilterInterface | null) => {
+  const request = baseRequest();
+  const params = new URLSearchParams();
+
+  if (filter?.remainingTerm != undefined) {
+    params.append("remainingTerm", filter.remainingTerm.toString());
+  }
+
+  if (filter?.startPrice) {
+    params.append("startPrice", filter.startPrice.toString());
+  }
+
+  if (filter?.endPrice) {
+    params.append("endPrice", filter.endPrice.toString());
+  }
+
+  if (filter?.babyId) {
+    params.append("babyId", filter.babyId.toString());
+  }
+
+  if (filter?.paymentTypeId) {
+    params.append("paymentTypeId", filter.paymentTypeId.toString());
+  }
+
+  if (filter?.servicePackageId) {
+    params.append("servicePackageId", filter.servicePackageId.toString());
+  }
+
+  if (filter?.statusId) {
+    params.append("statusId", filter.statusId.toString());
+  }
+
+  if (filter?.arrangementId) {
+    params.append("arrangementId", filter.arrangementId.toString());
+  }
+
+  const result = await request({
+    url: `/arrangement/find-price?${params.toString()}`,
+    method: "get",
+  });
+
+  return result?.data;
+};
+
 export const getArrangementsList = async () => {
   const request = baseRequest();
 
